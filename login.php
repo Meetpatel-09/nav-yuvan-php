@@ -3,10 +3,11 @@ $title = "Log In";
 ?>
 
 <?php
-
+// ob_start();
+session_start();
 // Check if user is already logged in
-if (isset($_SESSION['email'])) {
-     header("location: index.php");
+if (isset($_SESSION['admin_email'])) {
+     header("location: admin-home.php");
      exit;
 }
 
@@ -42,13 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
      if (empty($email_err) && empty($password_err)) {
 
-          if ($email == "admin@test.com" && $password== "123456") {
+          if ($email == "admin@test.com" && $password == "123456") {
+               $_SESSION['admin_email'] = "demo";
                header("location: admin-home.php");
           } else {
                $password_err = "Invalid Id Password";
                function_alert($password_err);
           }
-          
+
           // $sql = "SELECT id, email, password FROM admin WHERE email = ?";
           // $stmt = mysqli_prepare($conn, $sql);
           // mysqli_stmt_bind_param($stmt, "s", $param_email);
@@ -96,34 +98,33 @@ ob_start();
      <meta charset="UTF-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
      <!-- <link rel="stylesheet" href="css/style.css"> -->
      <title><?php echo $title; ?></title>
      <style type="text/css">
-     body {
-          background-color: aliceblue;
-     }
+          body {
+               background-color: aliceblue;
+          }
 
-     .style1 {
-          width: 100%;
-     }
+          .style1 {
+               width: 100%;
+          }
 
-     .style2 {
-          text-align: center;
-          width: 50px;
-     }
+          .style2 {
+               text-align: center;
+               width: 50px;
+          }
 
-     .style3 {
+          .style3 {
 
-          text-align: center;
-          width: 183px;
-          height: 50px;
-     }
+               text-align: center;
+               width: 183px;
+               height: 50px;
+          }
 
-     .style4 {
-          text-align: center;
-     }
+          .style4 {
+               text-align: center;
+          }
      </style>
 </head>
 
@@ -140,14 +141,11 @@ ob_start();
                          <form action="" method="post">
                               <div class="form-group">
                                    <label for="exampleInputEmail1">Email address</label>
-                                   <input type="email" class="form-control" id="exampleInputEmail1"
-                                        name="exampleInputEmail1" aria-describedby="emailHelp"
-                                        placeholder="Enter email">
+                                   <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                               </div>
                               <div class="form-group">
                                    <label for="exampleInputPassword1">Password</label>
-                                   <input type="password" class="form-control" id="exampleInputPassword1"
-                                        name="exampleInputPassword1" placeholder="Password">
+                                   <input type="password" class="form-control" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="Password">
                               </div>
                               <div style="text-align:center">
                                    <button type="submit" class="btn btn-primary col-6">Login</button>
@@ -160,14 +158,11 @@ ob_start();
           </div>
      </div>
 
-     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
      </script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
      </script>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-          integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
      </script>
 </body>
 

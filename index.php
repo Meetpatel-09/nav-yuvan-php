@@ -4,313 +4,399 @@
 session_start();
 require_once "config.php";
 
-$fname_error = $lname_error = $email_error = $pwd_error = $address_error = $cname_error = $mobile_error = $gender_error = $h1_error = $h2_error = $h3_error = $state_error = "";
-$fname = $lname = $email = $pwd = $address = $cname = $mobile = $gender = $h1 = $h2 = $h3 = $state = "";
+function function_alert($message)
+{
+     // Display the alert box 
+     echo "<script>alert('$message');</script>";
+}
+
+if (isset($_SESSION['status'])) {
+     if ($_SESSION['status'] == "success") {
+          function_alert("Form submitted successfully");
+     } else {
+          function_alert("Form was not submitted successfully");
+     }
+     unset($_SESSION['status']);
+}
+// Function call
+// function_alert("Welcome to Geeks for Geeks");
+
+$name = $father_name = $mother_name = $surname = $father_native_place = $mother_native_place = $gender = $marital_status = $birth_date = $birth_time = $birth_time_ampm = $birth_time_morining = $birth_place = $height = $mobile_number_one = $mobile_number_two = $email = $address = $education = $profession = $monthly_income = $about_you = $profile_photo = "";
+
+$confirm_error = "";
+
+$name_error = $father_name_error = $mother_name_error = $surname_error = $father_native_place_error = $mother_native_place_error = $gender_error = $marital_status_error = $birth_date_error = $birth_time_error = $birth_time_ampm_error = $birth_time_morining_error = $birth_place_error = $height_error = $mobile_number_one_error = $mobile_number_two_error = $email_error = $address_error = $education_error = $profession_error = $monthly_income_error = $about_you_error = $profile_photo_error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-     $_SESSION['name'] = $_POST['name'];
-     $_SESSION['email'] = $_POST['email'];
-     $_SESSION['mobile'] = $_POST['mobile'];
-     $_SESSION['dob'] = $_POST['dob'];
-     $_SESSION['marital_status'] = $_POST['marital_status'];
-     $_SESSION['food'] = $_POST['food'];
-     $_SESSION['father_name'] = $_POST['father_name'];
-     $_SESSION['mother_name'] = $_POST['mother_name'];
-     $_SESSION['surname'] = $_POST['surname'];
-     $_SESSION['native_place'] = $_POST['native_place'];
-     $_SESSION['address'] = $_POST['address'];
-     $_SESSION['about_you'] = $_POST['about_you'];
-     $_SESSION['education'] = $_POST['education'];
-     $_SESSION['profession'] = $_POST['profession'];
+     if (isset($_POST['confirm'])) {
 
-     header("location: view.php");
+          if (isset($_FILES['profile_photo'])) {
+               // $profile_photo = $_POST['profile_photo'];
+               $image_name = $_FILES['profile_photo']['name'];
+               $image_size = $_FILES['profile_photo']['size'];
+               $tmp_name = $_FILES['profile_photo']['tmp_name'];
+               $type = $_FILES['profile_photo']['type'];
 
-     // if (empty($_POST['fName'])) {
-     //      $fname_error = "Please Enter your full name";
-     // } else {
-     //      $fname = $_POST['fName'];
-     // }
+               if ($type == "image/jpg" || $type == "image/jpeg" || $type == "image/png" || $type == "image/jpe" || $type == "image/jfif") {
 
-     // if (empty(trim($_POST['lName']))) {
-     //      $lname_error = "Please Enter your last name";
-     // } else {
-     //      $lname = $_POST['lName'];
-     // }
+                    $profile_photo = rand(10000000, 99999999) . ".png";
+               } else {
+                    $profile_photo_error = "Valid extensions .jpg, .jpeg, .png, .jpe, .jifi";
+               }
+          } else {
+               $profile_photo_error = "Please select a picture";
+          }
 
-     // if (empty(trim($_POST['email']))) {
-     //      $email_error = "Please Enter your Email address";
-     // } else {
+          if (isset($_POST['name'])) {
+               $name = $_POST['name'];
+          } else {
+               $name_error = "Please enter your first name";
+          }
 
-     //      $stmt = mysqli_prepare($conn, "SELECT id FROM user_tbl WHERE email = ?");
+          if (isset($_POST['father_name'])) {
+               $father_name = $_POST['father_name'];
+          } else {
+               $father_name_error = "Please enter your father's name";
+          }
 
-     //      if ($stmt) {
+          if (isset($_POST['surname'])) {
+               $surname = $_POST['surname'];
+          } else {
+               $surname_error = "Please enter your father's name";
+          }
 
-     //           mysqli_stmt_bind_param($stmt, 's', $p_email);
+          if (isset($_POST['father_native_place'])) {
+               $father_native_place = $_POST['father_native_place'];
+          } else {
+               $father_native_place_error = "Please enter your father's native place";
+          }
 
-     //           $p_email = $_POST['email'];
+          if (isset($_POST['mother_name'])) {
+               $mother_name = $_POST['mother_name'];
+          } else {
+               $mother_name_error = "Please enter your mother's name";
+          }
 
-     //           if (mysqli_stmt_execute($stmt)) {
-     //                mysqli_stmt_store_result($stmt);
+          if (isset($_POST['mother_native_place'])) {
+               $mother_native_place = $_POST['mother_native_place'];
+          } else {
+               $mother_native_place_error = "Please enter your mother's native place";
+          }
 
-     //                if (mysqli_stmt_num_rows($stmt) > 0) {
-     //                     $email_error = "Email already registered";
-     //                } else {
-     //                     $email = $_POST['email'];
-     //                }
-     //           }
-     //      }
-     // }
+          if (isset($_POST['gender'])) {
+               $gender = $_POST['gender'];
+          } else {
+               $gender_error = "Please select your gender";
+          }
 
-     // if (empty(trim($_POST['mobile']))) {
-     //      $mobile_error = "Please Enter your Mobile number";
-     // } else {
+          if (isset($_POST['marital_status'])) {
+               $marital_status = $_POST['marital_status'];
+          } else {
+               $marital_status_error = "Please select your marital status";
+          }
 
-     //      $query = "SELECT mobile FROM user_tbl WHERE mobile = ?";
+          if (isset($_POST['birth_date'])) {
+               $birth_date = $_POST['birth_date'];
+          } else {
+               $birth_date_error = "Please enter your date of birth";
+          }
 
-     //      $stmt = mysqli_prepare($conn, $query);
+          if (isset($_POST['birth_place'])) {
+               $birth_place = $_POST['birth_place'];
+          } else {
+               $birth_place_error = "Please enter your place of birth";
+          }
 
-     //      if ($stmt) {
+          if (isset($_POST['height'])) {
+               $height = $_POST['height'];
+          } else {
+               $height_error = "Please enter your height";
+          }
 
-     //           mysqli_stmt_bind_param($stmt, 's', $p_mobile);
+          if (isset($_POST['mobile_number_one'])) {
+               $mobile_number_one = $_POST['mobile_number_one'];
+          } else {
+               $mobile_number_one_error = "Please enter your mobile number";
+          }
 
-     //           $p_mobile = $_POST['mobile'];
+          if (isset($_POST['email'])) {
+               $email = $_POST['email'];
+          } else {
+               $email_error = "Please enter your email address";
+          }
 
-     //           if (mysqli_stmt_execute($stmt)) {
-     //                mysqli_stmt_store_result($stmt);
+          if (isset($_POST['address'])) {
+               $address = $_POST['address'];
+          } else {
+               $address_error = "Please enter your present address";
+          }
 
-     //                if (mysqli_stmt_num_rows($stmt) == 1) {
-     //                     $mobile_error = "Number already registered";
-     //                } else {
-     //                     $mobile = $_POST['mobile'];
-     //                }
-     //           }
-     //      }
-     // }
+          if (isset($_POST['education'])) {
+               $education = $_POST['education'];
+          } else {
+               $education_error = "Please enter your education details";
+          }
 
-     // if (isset($_POST['Hobby1'])) {
-     //      $h1 = $_POST['Hobby1'];
-     // } else {
-     //      echo "";
-     // }
-     // if (isset($_POST['Hobby2'])) {
-     //      $h2 = $_POST['Hobby2'];
-     // } else {
-     //      echo "";
-     // }
-     // if (isset($_POST['Hobby3'])) {
-     //      $h3 = $_POST['Hobby3'];
-     // } else {
-     //      echo "";
-     // }
+          if (isset($_POST['profession'])) {
+               $profession = $_POST['profession'];
+          } else {
+               $profession_error = "Please enter your job/bussiness details";
+          }
 
-     // $address = $_POST['address'];
+          if (isset($_POST['about_you'])) {
+               $about_you = $_POST['about_you'];
+          } else {
+               $about_you_error = "Please enter something in about you";
+          }
 
-     // if (empty(trim($_POST['password']))) {
-     //      $pwd_error = "Please Create a password";
-     // } else {
-     //      if (strlen($_POST['password']) < 6) {
-     //           $pwd_error = "Password length must be between 6 to 12 charactors";
-     //      } else {
-     //           $pwd = $_POST['password'];
-     //      }
-     // }
+          if ($profile_photo_error == "" && $name_error == "" && $father_name_error == "" && $surname_error == "" && $mother_name_error == "" && $father_native_place_error == "" && $mother_native_place_error == "" && $gender_error == "" && $marital_status_error == "" && $birth_date_error == "" && $birth_time_error == "" && $birth_place_error == "" && $height_error == "" && $mobile_number_one_error == "" && $email_error == "" && $address_error == "" && $education_error == "" && $profession_error == "" && $monthly_income_error == "" && $about_you_error == "") {
 
-     // if (isset($_POST['gender'])) {
-     //      $gender = $_POST['gender'];
-     // } else {
-     //      $gender_error = "Select Gender";
-     // }
+               // $_SESSION['profile_photo'] = $_POST['profile_photo'];
+               $des = "./uploaded_images/" . $profile_photo;
+               move_uploaded_file($tmp_name, $des);
 
-     // if ($_POST['state'] == "Not Selected") {
-     //      $state_error = "Please select a State";
-     // } else {
-     //      $state = $_POST['state'];
-     // }
+               $_SESSION['name'] = $_POST['name'];
 
+               $_SESSION['father_name'] = $_POST['father_name'];
 
-     // if (empty($fname_error) and empty($lname_error) and empty($email_error) and empty($pwd_error) and empty($gender_error) and empty($state_error) and empty($mobile_error)) {
+               $_SESSION['surname'] = $_POST['surname'];
 
+               $_SESSION['father_native_place'] = $_POST['father_native_place'];
 
-     // $query = "INSERT INTO `users` (`name`, `email`, `mobile_number`, `marital_status`, `food`, `father_name`, `mother_name`, `surname`, `native_place`, `address`, `about_you`, `education`, `job_business`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+               $_SESSION['mother_name'] = $_POST['mother_name'];
 
-     // $stmt = mysqli_prepare($conn, $query);
+               $_SESSION['mother_native_place'] = $_POST['mother_native_place'];
 
-     // if ($stmt) {
+               $_SESSION['gender'] = $_POST['gender'];
 
-     //      mysqli_stmt_bind_param($stmt, "sssssssssssss", $p_name, $p_email, $p_mobile, $p_marital_status, $p_food, $p_father_name, $p_mother_name, $p_surname, $p_native_place, $p_address, $p_about_you, $p_education, $p_job_business);
+               $_SESSION['marital_status'] = $_POST['marital_status'];
 
-     //      $p_name = $name;
-     //      $p_email = $email;
-     //      $p_mobile = $mobile;
-     //      $p_marital_status = $marital_status;
-     //      $p_food = $food;
-     //      $p_father_name = $father_name;
-     //      $p_mother_name = $mother_name;
-     //      $p_surname = $surname;
-     //      $p_native_place = $native_place;
-     //      $p_address = $address;
-     //      $p_about_you = $about_you;
-     //      $p_education = $education;
-     //      $p_job_business = $job_business;
+               $_SESSION['date_of_birth'] = $_POST['birth_date'];
 
-     //      if (mysqli_stmt_execute($stmt)) {
-     //           header("location: index.html");
-     //      } else {
-     //           echo "Someting went wrong";
-     //      }
-     // } else {
-     //      echo "Database error";
-     // }
-     // mysqli_stmt_close($stmt);
-     // // }
-     // mysqli_close($conn);
+               $_SESSION['birth_time'] = $_POST['birth_time'];
+               // $_SESSION['birth_time_t'] = $_POST['birth_time'];
+               $_SESSION['birth_time_ampm'] = $_POST['birth_time_ampm'];
+               $_SESSION['birth_time_morining'] = $_POST['birth_time_morining'];
+
+               $_SESSION['birth_place'] = $_POST['birth_place'];
+
+               $_SESSION['height'] = $_POST['height'];
+
+               if ($_POST['mobile_number_two'] != "") {
+                    $_SESSION['mobile_number'] = $_POST['mobile_number_one'] . ", " . $_POST['mobile_number_two'];
+               } else {
+                    $_SESSION['mobile_number'] = $_POST['mobile_number_one'];
+               }
+
+               $_SESSION['mobile_number_one'] = $_POST['mobile_number_one'];
+
+               $_SESSION['mobile_number_two'] = $_POST['mobile_number_two'];
+
+               $_SESSION['email'] = $_POST['email'];
+
+               $_SESSION['address'] = $_POST['address'];
+
+               $_SESSION['education'] = $_POST['education'];
+
+               $_SESSION['profession'] = $_POST['profession'];
+
+               $_SESSION['monthly_income'] = $_POST['monthly_income'];
+
+               $_SESSION['about_you'] = $_POST['about_you'];
+
+               $_SESSION['profile_photo'] = $profile_photo;
+
+               header("location: view.php");
+          }
+     } else {
+          $confirm_error = "Please check this checkbox to submit the form.";
+     }
 }
 
 ?>
+
 <!doctype html>
 <html lang="en">
 
 <head>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title>Nav Yuvan</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+     <title>Home</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
      <link rel="stylesheet" href="css/style.css">
 
+     <style>
+          img {
+               width: 18vw;
+               height: 18vw;
+          }
+
+          @media only screen and (orientation: landscape) {
+               img {
+                    height: 120px;
+                    width: 120px;
+               }
+          }
+     </style>
 </head>
 
-<body class="py-4">
-     <div class="container d-flex justify-content-center align-items-center">
+<body class="pb-4">
+
+     <header style="background-color: white; z-index: 5;">
+          <div class="ps-5 pe-5 pb-3 pt-3 d-flex shadow-lg justify-content-evenly">
+               <img src="images/logo.jpeg" class="rounded-circle border-1 border-dark border-opacity-100 float-start mt-4" alt="..." width="10vw" height="10vw">
+               <div style="max-width: 60vw;">
+                    <p class="text-center h4">JAY HINGLAJ</p>
+                    <p class="text-center h4">Shree Navpargana Bhavsar Seva Samaj-Navsari</p>
+                    <p class="text-center h6 mt-3 fw-semibold">2738, Ashadip Colony,Chhapra Road Navsari,PIN-396445</p>
+
+                    <p class="text-center h6 mt-3 fw-semibold">Mobile No.: 6353200313</p>
+                    <p class="text-center h6 fw-semibold">Landline No.: 02637 244415 </p>
+                    <p class="text-center h6 fw-semibold">Email: <a href="mailto:navparaganabhavsar@gmail.com">navparaganabhavsar@gmail.com</a> </p>
+               </div>
+               <img src="images/image.jpeg" class="rounded-circle float-end mt-4 me-1" alt="..." width="9vw" height=9vw">
+          </div>
+     </header>
+
+     <div class="container mt-3 d-flex justify-content-center align-items-center">
           <div class="card p-5 z-2 shadow-lg border-0">
-               <form class="row g-3" method="POST">
-                    <h1>Nav Yuvan</h1>
-                    <!-- <div class="col-12">
-                         <img src="images/p2.png" class="rounded-circle" style="width: 150px;" alt="Avatar" />
-                         <br>
-                    </div> -->
+               <form class="row g-3" method="POST" enctype="multipart/form-data" netlify>
+                    <h3 class="text-center m-0 fw-semibold">Online 2<sup>nd</sup> Marrage Beuro.</h3>
+                    <label for="" class="h5 text-center fw-semibold">Last date for apply: 10 March, 2023</label>
 
                     <div class="col-12">
                          <label for="inputProfilePhoto" class="form-label">Profile Photo</label>
-                         <input type="file" class="form-control" name="profile_photo" id="inputProfilePhoto">
+                         <input type="file" class="form-control" name="profile_photo" id="inputProfilePhoto" required>
+                         <div class="invalid-input">
+                              <?php echo $profile_photo_error; ?>
+                         </div>
                     </div>
+
                     <div class="col-md-6">
                          <label for="inputName" class="form-label">Name</label>
                          <input type="text" class="form-control" name="name" id="inputName" required>
-                         <!-- <div id="invalid-name" class="invalid-input">
-                              Valid first name is required.
-                         </div> -->
+                         <div class="invalid-input">
+                              <?php echo $name_error; ?>
+                         </div>
+                    </div>
+
+                    <div class="col-md-6">
+                         <label for="inputFaterName" class="form-label">Father's Name</label>
+                         <input type="text" class="form-control" name="father_name" id="inputFaterName" required>
+                    </div>
+
+                    <div class="col-md-6">
+                         <label for="inputSurname" class="form-label">Surname</label>
+                         <input type="text" class="form-control" name="surname" id="inputSurname" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputFaterNativePlace" class="form-label">Father's Native Place</label>
+                         <input type="text" class="form-control" name="father_native_place" id="inputFaterNativePlace" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputMotherName" class="form-label">Mother's Name</label>
+                         <input type="text" class="form-control" name="mother_name" id="inputMotherName" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputMotherNativePlace" class="form-label">Mother's Address (Mosal)</label>
+                         <input type="text" class="form-control" name="mother_native_place" id="inputMotherNativePlace" required>
                     </div>
                     <div class="col-6">
                          <label for="" class="form-label">Gender</label>
                          <br>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="Veg">
+                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="Male">
                               <label class="form-check-label" for="inlineRadio3">Male</label>
                          </div>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio4"
-                                   value="Non-Veg">
+                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio4" value="Female">
                               <label class="form-check-label" for="inlineRadio4">Female</label>
                          </div>
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputFaterName" class="form-label">Father's Name</label>
-                         <input type="text" class="form-control" name="father_name" id="inputFaterName">
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputFaterNativePlace" class="form-label">Father's Native Place</label>
-                         <input type="text" class="form-control" name="father_native_place" id="inputFaterNativePlace">
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputMotherName" class="form-label">Mother's Name</label>
-                         <input type="text" class="form-control" name="mother_name" id="inputMotherName">
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputMotherNativePlace" class="form-label">Mother's Native Place</label>
-                         <input type="text" class="form-control" name="mother_native_place" id="inputMotherNativePlace">
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputSurname" class="form-label">Surname</label>
-                         <input type="text" class="form-control" name="surname" id="inputSurname" required>
                     </div>
                     <div class="col-6">
                          <label for="" class="form-label">Marital Status</label>
                          <br>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio1"
-                                   value="Unmarried">
+                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio1" value="Unmarried">
                               <label class="form-check-label" for="inlineRadio1">Unmarried</label>
                          </div>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio2"
-                                   value="Divorcee">
+                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio2" value="Divorcee">
                               <label class="form-check-label" for="inlineRadio2">Divorcee</label>
                          </div>
-                    </div>
-                    <div class="col-12">
-                         <label for="inputAddress" class="form-label">Address</label>
-                         <textarea class="form-control" name="address" id="inputAddress"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputMobile" class="form-label">Mobile Number (1)</label>
-                         <input type="tel" class="form-control" name="mobile" id="inputMobile" required>
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputMobile" class="form-label">Mobile Number (2)(Optional)</label>
-                         <input type="tel" class="form-control" name="mobile" id="inputMobile" required>
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputEmail" class="form-label">Email</label>
-                         <input type="email" class="form-control" name="email" id="inputEmail" required>
-                         <!-- <div id="invalid-email" class="invalid-input">
-                              Valid email is required.
-                         </div> -->
-                    </div>
-                    <!-- 
-                    <div class="col-md-6">
-                         <label for="inputNPlace" class="form-label">Native Place</label>
-                         <input type="text" class="form-control" name="native_place" id="inputNPlace">
-                    </div> -->
-                    <div class="col-md-6">
-                         <label for="inputEducation" class="form-label">Education</label>
-                         <input type="text" class="form-control" name="education" id="inputEducation">
-                    </div>
-                    <!-- <div class="col-12"> -->
-                    <div class="col-md-6">
-                         <label for="inputProfession" class="form-label">Job/Business</label>
-                         <!-- <textarea class="form-control" name="profession" id="inputProfession"></textarea> -->
-                         <input type="text" class="form-control" name="profession" id="inputProfession">
-                    </div>
-                    <div class="col-md-6">
-                         <label for="inputMonthlyIncome" class="form-label">Monthly Income</label>
-                         <input type="number" class="form-control" name="monthly_income" id="inputMonthlyIncome">
-                    </div>
-                    <div class="col-12">
-                         <label for="inputAboutYou" class="form-label">About You</label>
-                         <textarea class="form-control" name="address" id="inputAboutYou"></textarea>
                     </div>
 
                     <div class="col-md-6">
                          <label for="inputDateOfBirth" class="form-label">Date of Birth</label>
-                         <input type="date" class="form-control" name="date_of_birth" id="inputDateOfBirth">
+                         <input type="date" class="form-control" name="birth_date" id="inputDateOfBirth" required>
                     </div>
 
                     <div class="col-md-6">
                          <label for="inputTimeOfBirth" class="form-label">Time of Birth</label> <br>
-                         <input type="time" min="01:00" max="12:00" class="form-control" name="time_of_birth"
-                              id="inputTimeOfBirth" style="width: auto; display: inline">
-                         <select class=" form-select" style="width: auto; display: inline">
-                              <option value="1">Morning</option>
-                              <option value="2">Evening</option>
+                         <input type="text" class="form-control" name="birth_time" id="inputTimeOfBirth" style="width: 40%; display: inline" required>
+                         <select class=" form-select" name="birth_time_ampm" title="birth_time_ampm" style="width: auto; display: inline" required>
+                              <option value="AM">AM</option>
+                              <option value="PM">PM</option>
+                         </select>
+                         <select class=" form-select" name="birth_time_morining" title="birth_time_morining" style="width: auto; display: inline" required>
+                              <option value="Morning">Morning</option>
+                              <option value="Afternoon">Afternoon</option>
+                              <option value="Evening">Evening</option>
                          </select>
                     </div>
-
+                    <div class="col-md-6">
+                         <label for="inputBirthPlace" class="form-label">Birth Place</label>
+                         <input type="text" class="form-control" name="birth_place" id="inputBirthPlace" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputHeight" class="form-label">Height</label>
+                         <input type="text" class="form-control" name="height" id="inputHeight" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputMobile" class="form-label">Mobile Number (1)</label>
+                         <input type="tel" class="form-control" name="mobile_number_one" id="inputMobile" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputMobile2" class="form-label">Mobile Number (2)(Optional)</label>
+                         <input type="tel" class="form-control" name="mobile_number_two" id="inputMobile2">
+                    </div>
                     <div class="col-12">
-                         <button type="submit" class="btn btn-primary">Submit</button>
-                         <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                              data-bs-target="#exampleModal">
+                         <label for="inputEmail" class="form-label">Email</label>
+                         <input type="email" class="form-control" name="email" id="inputEmail" required>
+                    </div>
+                    <div class="col-12">
+                         <label for="inputAddress" class="form-label">Present Address</label>
+                         <textarea class="form-control" name="address" id="inputAddress"></textarea>
+                    </div>
+                    <div class="col-12">
+                         <label for="inputEducation" class="form-label">Education</label>
+                         <input type="text" class="form-control" name="education" id="inputEducation" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputProfession" class="form-label">Job/Business</label>
+                         <input type="text" class="form-control" name="profession" id="inputProfession" required>
+                    </div>
+                    <div class="col-md-6">
+                         <label for="inputMonthlyIncome" class="form-label">Monthly Income</label>
+                         <input type="text" class="form-control" name="monthly_income" id="inputMonthlyIncome">
+                    </div>
+                    <div class="col-12">
+                         <label for="inputAboutYou" class="form-label">About You</label>
+                         <textarea class="form-control" name="about_you" id="inputAboutYou"></textarea>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                         <input class="form-check-input" type="checkbox" name="confirm" id="confirm" value="true" required>
+                         <label class="form-check-label" for="confirm">I/We hereby declare that the above details are
+                              correct and true to our knowledge</label>
+                         <div class="invalid-input">
+                              <?php echo $confirm_error; ?>
+                         </div>
+                    </div>
+                    <div class="col-12">
+                         <button type="submit" class="btn btn-primary">Next</button>
+                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                               Reset
                          </button>
                          <button type="reset" class="btn btn-warning" id="reset-button">Reset</button>
@@ -318,6 +404,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                </form>
           </div>
      </div>
+
 
      <!-- Button trigger modal -->
 
@@ -334,24 +421,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     </div>
                     <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                         <button type="reset" onclick="reset()" data-bs-dismiss="modal"
-                              class="btn btn-warning">Reset</button>
+                         <button type="reset" onclick="reset()" data-bs-dismiss="modal" class="btn btn-warning">Reset</button>
                     </div>
                </div>
           </div>
      </div>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
      </script>
 
      <script>
-     var btnReset = document.getElementById("reset-button")
+          var btnReset = document.getElementById("reset-button");
+          btnReset.style.visibility = 'hidden';
 
-     btnReset.style.visibility = 'hidden';
-
-     function reset() {
-          btnReset.click();
-     }
+          function reset() {
+               btnReset.click();
+          }
      </script>
 </body>
 

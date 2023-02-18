@@ -2,10 +2,6 @@ body {
      background-color: aliceblue;
 }
 
-body>div {
-     min-height: 90vh;
-}
-
 .card {
      border-radius: 20px;
 }
@@ -28,4 +24,14 @@ form {
      margin-top: 0.25rem;
      font-size: .875em;
      color: #dc3545;
+}
+
+.my-wrap {
+     flex-direction: column;
+}
+
+@media only screen and (orientation: landscape) {
+     .my-wrap {
+          flex-direction: row-reverse;
+     }
 }

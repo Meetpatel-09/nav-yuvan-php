@@ -7,7 +7,7 @@ require_once "config.php";
 
 $id = $_GET['user_id'];
 
-
+echo $_SESSION['admin_email'];
 
 if (isset($_SESSION['name'])) {
 
@@ -26,8 +26,11 @@ if (isset($_SESSION['name'])) {
      $education = $_SESSION['education'];
      $job_business = $_SESSION['profession'];
 } else {
-     echo "session not set";
-     header("location: index.php");
+     if (isset($_SESSION['admin_email'])) {
+     } else {
+          echo "session not set";
+          header("location: index.php");
+     }
 }
 
 ?>
@@ -52,7 +55,7 @@ if (isset($_SESSION['name'])) {
                     <form class="row g-3" method="POST">
                          <h1>Nav Yuvan</h1>
                          <div class="col-md-6">
-                              <label for="inputName" class="form-label">Name: <?php echo $_SESSION["name"]; ?></label>
+                              <label for="inputName" class="form-label">Name: <?php echo $name; ?></label>
 
                          </div>
                          <div class="col-md-6">
