@@ -43,6 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $profile_photo = rand(10000000, 99999999) . ".png";
                } else {
                     $profile_photo_error = "Valid extensions .jpg, .jpeg, .png, .jpe, .jifi";
+                    if ($image_size < 100000) {
+                         $profile_photo_error = "Please Select a High Resolution Image";
+                    } else {
+                         $profile_photo = rand(10000000, 99999999) . ".png";
+                    }
                }
           } else {
                $profile_photo_error = "Please select a picture";
@@ -261,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
      <div class="container mt-3 d-flex justify-content-center align-items-center">
           <div class="card p-5 z-2 shadow-lg border-0">
-               <form class="row g-3" method="POST" enctype="multipart/form-data" netlify>
+               <form class="row g-3" method="POST" enctype="multipart/form-data">
                     <h3 class="text-center m-0 fw-semibold">Online 2<sup>nd</sup> Marrage Beuro.</h3>
                     <label for="" class="h5 text-center fw-semibold">Last date for apply: 10 March, 2023</label>
 
@@ -275,7 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                     <div class="col-md-6">
                          <label for="inputName" class="form-label">Name</label>
-                         <input type="text" class="form-control" name="name" id="inputName" required>
+                         <input type="text" class="form-control" name="name" id="inputName" value="<?php echo $name; ?>" required>
                          <div class="invalid-input">
                               <?php echo $name_error; ?>
                          </div>
@@ -283,34 +288,34 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                     <div class="col-md-6">
                          <label for="inputFaterName" class="form-label">Father's Name</label>
-                         <input type="text" class="form-control" name="father_name" id="inputFaterName" required>
+                         <input type="text" class="form-control" name="father_name" id="inputFaterName" value="<?php echo $father_name; ?>" required>
                     </div>
 
                     <div class="col-md-6">
                          <label for="inputSurname" class="form-label">Surname</label>
-                         <input type="text" class="form-control" name="surname" id="inputSurname" required>
+                         <input type="text" class="form-control" name="surname" id="inputSurname" value="<?php echo $surname; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputFaterNativePlace" class="form-label">Father's Native Place</label>
-                         <input type="text" class="form-control" name="father_native_place" id="inputFaterNativePlace" required>
+                         <input type="text" class="form-control" name="father_native_place" id="inputFaterNativePlace" value="<?php echo $father_native_place; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputMotherName" class="form-label">Mother's Name</label>
-                         <input type="text" class="form-control" name="mother_name" id="inputMotherName" required>
+                         <input type="text" class="form-control" name="mother_name" id="inputMotherName" value="<?php echo $mother_name; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputMotherNativePlace" class="form-label">Mother's Address (Mosal)</label>
-                         <input type="text" class="form-control" name="mother_native_place" id="inputMotherNativePlace" required>
+                         <input type="text" class="form-control" name="mother_native_place" id="inputMotherNativePlace" value="<?php echo $mother_native_place; ?>" required>
                     </div>
                     <div class="col-6">
                          <label for="" class="form-label">Gender</label>
                          <br>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="Male">
+                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="Male" <?php echo ($gender == "Male") ? "Checked" : ""; ?>>
                               <label class="form-check-label" for="inlineRadio3">Male</label>
                          </div>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio4" value="Female">
+                              <input class="form-check-input" type="radio" name="gender" id="inlineRadio4" value="Female" <?php echo ($gender == "Female") ? "Checked" : ""; ?>>
                               <label class="form-check-label" for="inlineRadio4">Female</label>
                          </div>
                     </div>
@@ -318,48 +323,60 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <label for="" class="form-label">Marital Status</label>
                          <br>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio1" value="Unmarried">
+                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio1" value="Unmarried" <?php echo ($marital_status == "Unmarried") ? "Checked" : ""; ?>>
                               <label class="form-check-label" for="inlineRadio1">Unmarried</label>
                          </div>
                          <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio2" value="Divorcee">
+                              <input class="form-check-input" type="radio" name="marital_status" id="inlineRadio2" value="Divorcee" <?php echo ($marital_status == "Divorcee") ? "Checked" : ""; ?>>
                               <label class="form-check-label" for="inlineRadio2">Divorcee</label>
                          </div>
                     </div>
 
                     <div class="col-md-6">
                          <label for="inputDateOfBirth" class="form-label">Date of Birth</label>
-                         <input type="date" class="form-control" name="birth_date" id="inputDateOfBirth" required>
+                         <input type="date" class="form-control" name="birth_date" id="inputDateOfBirth" value="<?php echo $birth_date; ?>" required>
                     </div>
 
                     <div class="col-md-6">
                          <label for="inputTimeOfBirth" class="form-label">Time of Birth</label> <br>
-                         <input type="text" class="form-control" name="birth_time" id="inputTimeOfBirth" style="width: 40%; display: inline" required>
+                         <input type="text" class="form-control" name="birth_time" id="inputTimeOfBirth" style="width: 40%; display: inline" value="<?php echo $birth_time ?>" required>
                          <select class=" form-select" name="birth_time_ampm" title="birth_time_ampm" style="width: auto; display: inline" required>
-                              <option value="AM">AM</option>
-                              <option value="PM">PM</option>
+                              <option value="AM" <?php echo ($birth_time_ampm == "AM") ? "Selected" : "";
+                                                  ?>>AM
+                              </option>
+                              <option value="PM" <?php echo ($birth_time_ampm == "PM") ? "Selected" : "";
+                                                  ?>>PM
+                              </option>
                          </select>
                          <select class=" form-select" name="birth_time_morining" title="birth_time_morining" style="width: auto; display: inline" required>
-                              <option value="Morning">Morning</option>
-                              <option value="Afternoon">Afternoon</option>
-                              <option value="Evening">Evening</option>
+                              <option value="Morning" <?php echo ($birth_time_morining == "Morning") ? "Selected" : "";
+                                                       ?>>
+                                   Morning
+                              </option>
+                              <option value="Afternoon" <?php echo ($birth_time_morining == "Afternoon") ? "Selected" : "";
+                                                            ?>>
+                                   Afternoon</option>
+                              <option value="Evening" <?php echo ($birth_time_morining == "Evening") ? "Selected" : "";
+                                                       ?>>
+                                   Evening
+                              </option>
                          </select>
                     </div>
                     <div class="col-md-6">
                          <label for="inputBirthPlace" class="form-label">Birth Place</label>
-                         <input type="text" class="form-control" name="birth_place" id="inputBirthPlace" required>
+                         <input type="text" class="form-control" name="birth_place" id="inputBirthPlace" value="<?php echo $birth_place; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputHeight" class="form-label">Height</label>
-                         <input type="text" class="form-control" name="height" id="inputHeight" required>
+                         <input type="text" class="form-control" name="height" id="inputHeight" value="<?php echo $height; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputMobile" class="form-label">Mobile Number (1)</label>
-                         <input type="tel" class="form-control" name="mobile_number_one" id="inputMobile" required>
+                         <input type="tel" class="form-control" name="mobile_number_one" id="inputMobile" value="<?php echo $mobile_number_one; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputMobile2" class="form-label">Mobile Number (2)(Optional)</label>
-                         <input type="tel" class="form-control" name="mobile_number_two" id="inputMobile2">
+                         <input type="tel" class="form-control" name="mobile_number_two" id="inputMobile2" value="<?php echo $mobile_number_two; ?>">
                     </div>
                     <div class="col-12">
                          <label for="inputEmail" class="form-label">Email</label>
@@ -367,23 +384,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     </div>
                     <div class="col-12">
                          <label for="inputAddress" class="form-label">Present Address</label>
-                         <textarea class="form-control" name="address" id="inputAddress"></textarea>
+                         <textarea class="form-control" name="address" id="inputAddress"><?php echo $address; ?></textarea>
                     </div>
                     <div class="col-12">
                          <label for="inputEducation" class="form-label">Education</label>
-                         <input type="text" class="form-control" name="education" id="inputEducation" required>
+                         <input type="text" class="form-control" name="education" id="inputEducation" value="<?php echo $education; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputProfession" class="form-label">Job/Business</label>
-                         <input type="text" class="form-control" name="profession" id="inputProfession" required>
+                         <input type="text" class="form-control" name="profession" id="inputProfession" value="<?php echo $profession; ?>" required>
                     </div>
                     <div class="col-md-6">
                          <label for="inputMonthlyIncome" class="form-label">Monthly Income</label>
-                         <input type="text" class="form-control" name="monthly_income" id="inputMonthlyIncome">
+                         <input type="text" class="form-control" name="monthly_income" id="inputMonthlyIncome" value="<?php echo $monthly_income; ?>">
                     </div>
                     <div class="col-12">
                          <label for="inputAboutYou" class="form-label">About You</label>
-                         <textarea class="form-control" name="about_you" id="inputAboutYou"></textarea>
+                         <textarea class="form-control" name="about_you" id="inputAboutYou"><?php echo $about_you; ?></textarea>
                     </div>
 
                     <div class="form-check form-check-inline">

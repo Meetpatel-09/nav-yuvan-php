@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                               <label for="inputMotherName" class="form-label">Mother's Name:
                                    <?php echo $mother_name; ?></label>
                               <br>
-                              <label for="inputMNPlace" class="form-label">Mother's Native Place:
+                              <label for="inputMNPlace" class="form-label">Mother's Address (Mosal):
                                    <?php echo $mother_native_place; ?></label>
                               <br>
                               <label for="inputGender" class="form-label">Gender:

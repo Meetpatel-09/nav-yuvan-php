@@ -21,8 +21,8 @@ if (isset($_SESSION['name'])) {
      $marital_status = $_SESSION['marital_status'];
      $birth_date = $_SESSION['date_of_birth'];
      $birth_time = $_SESSION['birth_time'];
-     // $birth_time_ampm = $_SESSION['birth_time_ampm'];
-     // $birth_time_morining = $_SESSION['birth_time_morining'];
+     $birth_time_ampm = $_SESSION['birth_time_ampm'];
+     $birth_time_morining = $_SESSION['birth_time_morining'];
      $birth_place = $_SESSION['birth_place'];
      $height = $_SESSION['height'];
      $mobile = $_SESSION['mobile_number'];
@@ -50,6 +50,8 @@ if (isset($_SESSION['name'])) {
           $marital_status = $row['marital_status'];
           $birth_date = $row['birth_date'];
           $birth_time = $row['birth_time'];
+          $birth_time_ampm = $row['birth_time_ampm'];
+          $birth_time_morining = $row['birth_time_morining'];
           $birth_place = $row['birth_place'];
           $height = $row['height'];
           $mobile_number_one = $row['mobile_number_one'];
@@ -355,22 +357,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          <label for="inputTimeOfBirth" class="form-label">Time of Birth</label> <br>
                          <input type="text" class="form-control" name="birth_time" id="inputTimeOfBirth" style="width: 40%; display: inline" value="<?php echo $birth_time ?>" required>
                          <select class=" form-select" name="birth_time_ampm" title="birth_time_ampm" style="width: auto; display: inline" required>
-                              <option value="AM" <?php //echo ($birth_time_ampm == "AM") ? "Selected" : ""; 
+                              <option value="AM" <?php echo ($birth_time_ampm == "AM") ? "Selected" : "";
                                                   ?>>AM
                               </option>
-                              <option value="PM" <?php // echo ($birth_time_ampm == "PM") ? "Selected" : ""; 
+                              <option value="PM" <?php echo ($birth_time_ampm == "PM") ? "Selected" : "";
                                                   ?>>PM
                               </option>
                          </select>
                          <select class=" form-select" name="birth_time_morining" title="birth_time_morining" style="width: auto; display: inline" required>
-                              <option value="Morning" <?php //echo ($birth_time_morining == "Morning") ? "Selected" : ""; 
+                              <option value="Morning" <?php echo ($birth_time_morining == "Morning") ? "Selected" : "";
                                                        ?>>
                                    Morning
                               </option>
-                              <option value="Afternoon" <?php //echo ($birth_time_morining == "Afternoon") ? "Selected" : ""; 
+                              <option value="Afternoon" <?php echo ($birth_time_morining == "Afternoon") ? "Selected" : "";
                                                             ?>>
                                    Afternoon</option>
-                              <option value="Evening" <?php //echo ($birth_time_morining == "Evening") ? "Selected" : ""; 
+                              <option value="Evening" <?php echo ($birth_time_morining == "Evening") ? "Selected" : "";
                                                        ?>>
                                    Evening
                               </option>
