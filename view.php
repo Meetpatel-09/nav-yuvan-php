@@ -33,13 +33,13 @@ if (isset($_SESSION['name'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-     $query = "INSERT INTO `user_tbl`(`name`, `father_name`, `mother_name`, `surname`, `father_native_place`, `mother_native_place`, `gender`, `marital_status`, `birth_date`, `birth_time`, `birth_place`, `height`, `mobile_number_one`, `mobile_number_two`, `email`, `address`, `education`, `profession`, `monthly_income`, `about_you`, `profile_photo`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+     $query = "INSERT INTO `user_tbl`(`name`, `father_name`, `mother_name`, `surname`, `father_native_place`, `mother_native_place`, `gender`, `marital_status`, `birth_date`, `birth_time`, birth_time_ampm, birth_time_morining, `birth_place`, `height`, `mobile_number_one`, `mobile_number_two`, `email`, `address`, `education`, `profession`, `monthly_income`, `about_you`, `profile_photo`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
      $stmt = mysqli_prepare($conn, $query);
 
      if ($stmt) {
 
-          mysqli_stmt_bind_param($stmt, "sssssssssssssssssssss", $p_name, $p_father_name, $p_mother_name, $p_surname, $p_father_native_place, $p_mother_native_place, $p_gender, $p_marital_status, $p_birth_date, $p_birth_time, $p_birth_place, $p_height, $p_mobile_number_one, $p_mobile_number_two, $p_email, $p_address, $p_education, $p_profession, $p_monthly_income, $p_about_you, $p_profile_photo);
+          mysqli_stmt_bind_param($stmt, "sssssssssssssssssssssss", $p_name, $p_father_name, $p_mother_name, $p_surname, $p_father_native_place, $p_mother_native_place, $p_gender, $p_marital_status, $p_birth_date, $p_birth_time, $birth_time_ampm, $birth_time_morining, $p_birth_place, $p_height, $p_mobile_number_one, $p_mobile_number_two, $p_email, $p_address, $p_education, $p_profession, $p_monthly_income, $p_about_you, $p_profile_photo);
 
           $p_name = $_SESSION['name'];
           $p_father_name = $_SESSION['father_name'];
@@ -51,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           $p_marital_status = $_SESSION['marital_status'];
           $p_birth_date = $_SESSION['date_of_birth'];
           $p_birth_time = $_SESSION['birth_time'];
+          $birth_time_ampm =  $_SESSION['birth_time_ampm'];
+          $birth_time_morining = $_SESSION['birth_time_morining'];
           $p_birth_place = $_SESSION['birth_place'];
           $p_height = $_SESSION['height'];
           $p_mobile_number_one = $_SESSION['mobile_number_one'];
@@ -73,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                unset($_SESSION['marital_status']);
                unset($_SESSION['date_of_birth']);
                unset($_SESSION['birth_time']);
+               unset($_SESSION['birth_time_ampm']);
+               unset($_SESSION['birth_time_morining']);
                unset($_SESSION['birth_place']);
                unset($_SESSION['height']);
                unset($_SESSION['mobile_number_one']);
@@ -203,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          </div>
                          <div class="col-md-6">
                               <img src="uploaded_images/<?php echo $profile_photo ?>" style="max-width: 100%;" />
-                              <a href="changeProfilePiciture.php" class="btn m-3 btn-warning">Change Profile
+                              <a href="change-profile-piciture.php" class="btn m-3 btn-warning">Change Profile
                                    Picture</a>
                          </div>
                     </div>

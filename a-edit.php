@@ -2,8 +2,12 @@
 
 // ob_start();
 session_start();
+
 require_once "config.php";
 
+if (!isset($_SESSION['admin_email'])) {
+     header('location: index.php');
+}
 // $name = $father_name = $mother_name = $surname = $father_native_place = $mother_native_place = $gender = $marital_status = $birth_date = $birth_time = $birth_time_ampm = $birth_time_morining = $birth_place = $height = $mobile_number_one = $mobile_number_two = $email = $address = $education = $profession = $monthly_income = $about_you = "";
 
 if (isset($_SESSION['name'])) {
@@ -68,23 +72,6 @@ $name_error = $father_name_error = $mother_name_error = $surname_error = $father
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
      if (isset($_POST['confirm'])) {
-
-          // if (isset($_FILES['profile_photo'])) {
-          //      // $profile_photo = $_POST['profile_photo'];
-          //      $image_name = $_FILES['profile_photo']['name'];
-          //      $image_size = $_FILES['profile_photo']['size'];
-          //      $tmp_name = $_FILES['profile_photo']['tmp_name'];
-          //      $type = $_FILES['profile_photo']['type'];
-
-          //      if ($type == "image/jpg" || $type == "image/jpeg" || $type == "image/png" || $type == "image/jpe" || $type == "image/jfif") {
-
-          //           $profile_photo = rand(10000000, 99999999) . ".png";
-          //      } else {
-          //           $profile_photo_error = "Valid extensions .jpg, .jpeg, .png, .jpe, .jifi";
-          //      }
-          // } else {
-          //      $profile_photo_error = "Please select a picture";
-          // }
 
           if (isset($_POST['name'])) {
                $name = $_POST['name'];
@@ -213,10 +200,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                $_SESSION['date_of_birth'] = $_POST['birth_date'];
 
-               $_SESSION['birth_time'] = $_POST['birth_time'] . " " . $_POST['birth_time_ampm'] . " " . $_POST['birth_time_morining'];
+               $_SESSION['birth_time'] = $_POST['birth_time'];
                // $_SESSION['birth_time'] = $_POST['birth_time'] . " ". $_POST['birth_time_ampm'] . " ". $_POST['birth_time_morining'];
-               // $_SESSION['birth_time_ampm'] = $_POST['birth_time_ampm'];
-               // $_SESSION['birth_time_morining'] = $_POST['birth_time_morining'];
+               $_SESSION['birth_time_ampm'] = $_POST['birth_time_ampm'];
+               $_SESSION['birth_time_morining'] = $_POST['birth_time_morining'];
 
                $_SESSION['birth_place'] = $_POST['birth_place'];
 
@@ -246,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                // $_SESSION['profile_photo'] = $profile_photo;
 
-               header("location: view.php");
+               header("location: a-view.php");
           }
      } else {
           $confirm_error = "Please check this checkbox to submit the form.";

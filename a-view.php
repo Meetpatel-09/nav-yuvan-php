@@ -5,6 +5,9 @@ session_start();
 
 require_once "config.php";
 
+if (!isset($_SESSION['admin_email'])) {
+     header('location: index.php');
+}
 if (!isset($_SESSION['user_id'])) {
 
      $_SESSION['user_id'] = $_GET['user_id'];
@@ -14,8 +17,9 @@ if (!isset($_SESSION['user_id'])) {
      if (isset($_GET['user_id'])) {
           // echo "s2222dfsd";
           $id = $_GET['user_id'];
+          $_SESSION['user_id'] = $_GET['user_id'];
      } else {
-          echo "np";
+          // echo "np";
           $id = $_SESSION['user_id'];
      }
      // echo "aaa = $id";
@@ -34,7 +38,10 @@ while ($row = mysqli_fetch_array($sql1)) {
      $gender = $row['gender'];
      $marital_status = $row['marital_status'];
      $date_of_birth = $row['birth_date'];
-     $birth_time = $row['birth_time'];
+     $birth_time_d = $row['birth_time'] . " " . $row['birth_time_ampm'] . " " . $row['birth_time_morining'];
+     $birth_time = $row['birth_time_ampm'];
+     $birth_time_ampm =  $row['birth_time_ampm'];
+     $birth_time_morining = $row['birth_time_morining'];
      $birth_place = $row['birth_place'];
      $height = $row['height'];
      if ($row['mobile_number_two'] != "") {
@@ -55,14 +62,15 @@ while ($row = mysqli_fetch_array($sql1)) {
           if (isset($_SESSION['profile_photo'])) {
                $profile_photo = $_SESSION['profile_photo'];
           } else {
-               echo "10";
+               // echo "10";
                $profile_photo = $row['profile_photo'];
           }
      } else {
           $profile_photo = $row['profile_photo'];
      }
+     $_SESSION['profile_photo'] = $profile_photo;
 
-     if (isset($_GET['user_id'])) {
+     if (!isset($_GET['user_id'])) {
 
 
           if (isset($_SESSION['name'])) {
@@ -75,7 +83,10 @@ while ($row = mysqli_fetch_array($sql1)) {
                $gender = $_SESSION['gender'];
                $marital_status = $_SESSION['marital_status'];
                $date_of_birth = $_SESSION['date_of_birth'];
+               $birth_time_d = $_SESSION['birth_time'] . " " . $_SESSION['birth_time_ampm'] . " " . $_SESSION['birth_time_morining'];
                $birth_time = $_SESSION['birth_time'];
+               $birth_time_ampm =  $_SESSION['birth_time_ampm'];
+               $birth_time_morining = $_SESSION['birth_time_morining'];
                $birth_place = $_SESSION['birth_place'];
                $height = $_SESSION['height'];
                $mobile = $_SESSION['mobile_number'];
@@ -104,13 +115,149 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                unset($_SESSION['profile_photo']);
           } else {
                if (isset($_SESSION['profile_photo'])) {
-                    $query = "UPDATE `user_tbl` SET `name`='$name',`father_name`='$father_name',`mother_name`='$mother_name',`surname`='$surname',`father_native_place`='$father_native_place',`mother_native_place`='$mother_native_place',`gender`='$gender',`marital_status`='$marital_status',`birth_date`='$date_of_birth',`birth_time`='$birth_time',`birth_place`='$birth_place',`mobile_number_one`='$mobile_number_one',`mobile_number_two`='$mobile_number_two',`email`='$email',`address`='$address',`education`='$education',`profession`='$job_business',`monthly_income`='$monthly_income',`about_you`='$about_you',`profile_photo`='$profile_photo' WHERE `user_id` = $id";
-                    $result = mysqli_query($conn, $query);
+                    $query = "UPDATE `user_tbl` SET name=?,father_name=?,`mother_name`=?,`surname`=?,`father_native_place`=?,`mother_native_place`=?,`gender`=?,`marital_status`=?,`birth_date`=?,`birth_time`=?,`birth_time_ampm`=?,`birth_time_morining`=?,`birth_place`=?,`height`=?,`mobile_number_one`=?,`mobile_number_two`=?,`email`=?,`address`=?,`education`=?,`profession`=?,`monthly_income`=?,`about_you`=?,`profile_photo`=? WHERE `user_id` = ?";
+                    // $result = mysqli_query($conn, $query);
                     // echo "with pp";
                     // echo $result;
+
+
+                    $stmt = mysqli_prepare($conn, $query);
+
+                    if ($stmt) {
+
+                         echo " $name";
+                         mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssss", $name, $father_name, $mother_name, $surname, $father_native_place, $mother_native_place, $gender, $marital_status, $date_of_birth, $birth_time, $birth_time_ampm, $birth_time_morining, $birth_place, $height, $mobile_number_one, $mobile_number_two, $email, $address, $education, $job_business, $monthly_income, $about_you, $profile_photo, $id);
+
+                         echo " $name";
+                         $p_name = $name;
+                         $p_father_name = $father_name;
+                         $p_mother_name = $mother_name;
+                         $p_surname =  $surname;
+                         $p_father_native_place = $father_native_place;
+                         $p_mother_native_place = $mother_native_place;
+                         $p_gender = $gender;
+                         $p_marital_status = $marital_status;
+                         $p_birth_date = $p_birth_date;
+                         $p_birth_time = $birth_time;
+                         $birth_time_ampm =  $birth_time_ampm;
+                         $birth_time_morining = $birth_time_morining;
+                         $p_birth_place = $p_birth_place;
+                         $p_height = $height;
+                         $p_mobile_number_one = $mobile_number_one;
+                         $p_mobile_number_two = $mobile_number_two;
+                         $p_email = $email;
+                         $p_address = $address;
+                         $p_education = $education;
+                         $p_profession = $job_business;
+                         $p_monthly_income = $monthly_income;
+                         $p_about_you = $about_you;
+                         $p_profile_photo = $profile_photo;
+                         $p_id = $id;
+
+                         if (mysqli_stmt_execute($stmt)) {
+                              unset($_SESSION['name']);
+                              unset($_SESSION['father_name']);
+                              unset($_SESSION['mother_name']);
+                              unset($_SESSION['surname']);
+                              unset($_SESSION['father_native_place']);
+                              unset($_SESSION['gender']);
+                              unset($_SESSION['marital_status']);
+                              unset($_SESSION['date_of_birth']);
+                              unset($_SESSION['birth_time']);
+                              unset($_SESSION['birth_time_ampm']);
+                              unset($_SESSION['birth_time_morining']);
+                              unset($_SESSION['birth_place']);
+                              unset($_SESSION['height']);
+                              unset($_SESSION['mobile_number_one']);
+                              unset($_SESSION['mobile_number_two']);
+                              unset($_SESSION['email']);
+                              unset($_SESSION['address']);
+                              unset($_SESSION['education']);
+                              unset($_SESSION['profession']);
+                              unset($_SESSION['monthly_income']);
+                              unset($_SESSION['about_you']);
+                              unset($_SESSION['profile_photo']);
+
+                              $_SESSION["status"] = "success";
+                              header("location: admin-home.php");
+                         } else {
+                              echo "Someting went wrong";
+                         }
+                    } else {
+                         echo "Database error";
+                    }
                } else {
-                    $query = "UPDATE `user_tbl` SET `name`='$name',`father_name`='$father_name',`mother_name`='$mother_name',`surname`='$surname',`father_native_place`='$father_native_place',`mother_native_place`='$mother_native_place',`gender`='$gender',`marital_status`='$marital_status',`birth_date`='$date_of_birth',`birth_time`='$birth_time',`birth_place`='$birth_place',`mobile_number_one`='$mobile_number_one',`mobile_number_two`='$mobile_number_two',`email`='$email',`address`='$address',`education`='$education',`profession`='$job_business',`monthly_income`='$monthly_income',`about_you`='$about_you' WHERE `user_id` = $id";
-                    $result = mysqli_query($conn, $query);
+                    $query = "UPDATE `user_tbl` SET name=?,father_name=?,`mother_name`=?,`surname`=?,`father_native_place`=?,`mother_native_place`=?,`gender`=?,`marital_status`=?,`birth_date`=?,`birth_time`=?,`birth_time_ampm`=?,`birth_time_morining`=?,`birth_place`=?,`height`=?,`mobile_number_one`=?,`mobile_number_two`=?,`email`=?,`address`=?,`education`=?,`profession`=?,`monthly_income`=?,`about_you`=?, WHERE `user_id` = ?";
+                    // $result = mysqli_query($conn, $query);
+                    // echo "with pp";
+                    // echo $result;
+
+
+                    $stmt = mysqli_prepare($conn, $query);
+
+                    if ($stmt) {
+
+                         echo " $name";
+                         mysqli_stmt_bind_param($stmt, "sssssssssssssssssssssss", $name, $father_name, $mother_name, $surname, $father_native_place, $mother_native_place, $gender, $marital_status, $date_of_birth, $birth_time, $birth_time_ampm, $birth_time_morining, $birth_place, $height, $mobile_number_one, $mobile_number_two, $email, $address, $education, $job_business, $monthly_income, $about_you, $id);
+
+                         echo " $name";
+                         $p_name = $name;
+                         $p_father_name = $father_name;
+                         $p_mother_name = $mother_name;
+                         $p_surname =  $surname;
+                         $p_father_native_place = $father_native_place;
+                         $p_mother_native_place = $mother_native_place;
+                         $p_gender = $gender;
+                         $p_marital_status = $marital_status;
+                         $p_birth_date = $p_birth_date;
+                         $p_birth_time = $birth_time;
+                         $birth_time_ampm =  $birth_time_ampm;
+                         $birth_time_morining = $birth_time_morining;
+                         $p_birth_place = $p_birth_place;
+                         $p_height = $height;
+                         $p_mobile_number_one = $mobile_number_one;
+                         $p_mobile_number_two = $mobile_number_two;
+                         $p_email = $email;
+                         $p_address = $address;
+                         $p_education = $education;
+                         $p_profession = $job_business;
+                         $p_monthly_income = $monthly_income;
+                         $p_about_you = $about_you;
+                         // $p_profile_photo = $profile_photo;
+                         $p_id = $id;
+
+                         if (mysqli_stmt_execute($stmt)) {
+                              unset($_SESSION['name']);
+                              unset($_SESSION['father_name']);
+                              unset($_SESSION['mother_name']);
+                              unset($_SESSION['surname']);
+                              unset($_SESSION['father_native_place']);
+                              unset($_SESSION['gender']);
+                              unset($_SESSION['marital_status']);
+                              unset($_SESSION['date_of_birth']);
+                              unset($_SESSION['birth_time']);
+                              unset($_SESSION['birth_time_ampm']);
+                              unset($_SESSION['birth_time_morining']);
+                              unset($_SESSION['birth_place']);
+                              unset($_SESSION['height']);
+                              unset($_SESSION['mobile_number_one']);
+                              unset($_SESSION['mobile_number_two']);
+                              unset($_SESSION['email']);
+                              unset($_SESSION['address']);
+                              unset($_SESSION['education']);
+                              unset($_SESSION['profession']);
+                              unset($_SESSION['monthly_income']);
+                              unset($_SESSION['about_you']);
+                              // unset($_SESSION['profile_photo']);
+
+                              $_SESSION["status"] = "success";
+                              header("location: admin-home.php");
+                         } else {
+                              echo "Someting went wrong";
+                         }
+                    } else {
+                         echo "Database error";
+                    }
                     // echo $result;
                }
                unset($_SESSION['name']);
@@ -134,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                unset($_SESSION['about_you']);
                unset($_SESSION['profile_photo']);
                unset($_SESSION['user_id']);
-               header("location: index.php");
+               header("location: admin-home.php");
           }
      }
 }
@@ -216,7 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                               <br>
                               <label for="inputDoB" class="form-label">Birth Date: <?php echo $date_of_birth; ?></label>
                               <br>
-                              <label for="inputToB" class="form-label">Birth Time: <?php echo $birth_time; ?></label>
+                              <label for="inputToB" class="form-label">Birth Time: <?php echo $birth_time_d; ?></label>
                               <br>
                               <label for="inputBirthPlace" class="form-label">Birth Place:
                                    <?php echo $birth_place; ?></label>
@@ -244,13 +391,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                          </div>
                          <div class="col-md-6">
                               <img src="uploaded_images/<?php echo $profile_photo ?>" style="max-width: 100%;" />
-                              <a href="changeProfilePiciture.php" class="btn m-3 btn-warning">Change Profile
+                              <a href="a-change-profile-piciture.php" class="btn m-3 btn-warning">Change Profile
                                    Picture</a>
                          </div>
                     </div>
                     <div class="col-12">
                          <button type="submit" name="update" class="btn btn-primary">Save Changes</button>
-                         <a href="edit.php" class="btn btn-warning">Edit</a>
+                         <a href="a-edit.php" class="btn btn-warning">Edit</a>
                          <a href="admin-home.php" type="submit" name="Back" class="btn btn-secondary">Back</a>
                     </div>
                </form>
